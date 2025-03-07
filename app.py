@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, request, jsonify
 import joblib
 import pandas as pd
@@ -17,13 +16,12 @@ def load_all_models():
     commodities = [
         'Cabbage', 'Carrot', 'Brinjal', 'Leeks', 
         'Potato', 'Onion', 'Taro', 'Manioc'
-        # Add other vegetables you have models for
     ]
     
     for commodity in commodities:
         try:
-            model_path = f'/{commodity}_model.joblib'
-            scaler_path = f'/{commodity}_scaler.joblib'
+            model_path = f'saved_models/{commodity}_model.joblib'
+            scaler_path = f'saved_models/{commodity}_scaler.joblib'
             
             if os.path.exists(model_path) and os.path.exists(scaler_path):
                 models[commodity] = joblib.load(model_path)
@@ -31,6 +29,11 @@ def load_all_models():
                 print(f"Loaded model for {commodity}")
         except Exception as e:
             print(f"Error loading model for {commodity}: {e}")
+
+# Test endpoint
+@app.route('/')
+def home():
+    return "API is running!"
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -97,3 +100,6 @@ def predict():
 if __name__ == '__main__':
     load_all_models()
     app.run(debug=True)
+
+# Load models when starting the app
+load_all_models()
