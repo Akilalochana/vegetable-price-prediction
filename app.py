@@ -13,10 +13,13 @@ scalers = {}
 
 def load_all_models():
     """Load all saved models and scalers at startup"""
-    commodities = [
-        'Cabbage', 'Carrot', 'Brinjal', 'Leeks', 
-        'Potato', 'Onion', 'Taro', 'Manioc'
-    ]
+    print("Loading models...")
+    
+    # Get all model files in the directory
+    model_files = [f for f in os.listdir('saved_models') if f.endswith('_model.joblib')]
+    commodities = [f.split('_model.joblib')[0] for f in model_files]
+    
+    print(f"Found models for: {commodities}")
     
     for commodity in commodities:
         try:
@@ -27,6 +30,8 @@ def load_all_models():
                 models[commodity] = joblib.load(model_path)
                 scalers[commodity] = joblib.load(scaler_path)
                 print(f"Loaded model for {commodity}")
+            else:
+                print(f"Missing files for {commodity}")
         except Exception as e:
             print(f"Error loading model for {commodity}: {e}")
 
