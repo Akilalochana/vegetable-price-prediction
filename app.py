@@ -36,6 +36,17 @@ def load_all_models():
             print(f"Error loading model for {commodity}: {e}")
 
 # Test endpoint
+
+@app.route('/debug')
+def debug():
+    """Debug endpoint to check loaded models"""
+    loaded_models = list(models.keys())
+    return jsonify({
+        'loaded_models': loaded_models,
+        'model_count': len(loaded_models),
+        'available_files': os.listdir('saved_models') if os.path.exists('saved_models') else []
+    })
+
 @app.route('/')
 def home():
     return "API is running!"
