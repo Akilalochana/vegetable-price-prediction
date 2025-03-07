@@ -22,8 +22,8 @@ def load_all_models():
     
     for commodity in commodities:
         try:
-            model_path = f'saved_models/{commodity}_model.joblib'
-            scaler_path = f'saved_models/{commodity}_scaler.joblib'
+            model_path = f'/{commodity}_model.joblib'
+            scaler_path = f'/{commodity}_scaler.joblib'
             
             if os.path.exists(model_path) and os.path.exists(scaler_path):
                 models[commodity] = joblib.load(model_path)
